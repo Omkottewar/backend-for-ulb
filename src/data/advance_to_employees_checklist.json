@@ -1,0 +1,584 @@
+{
+  "formId": "advance_to_employees_checklist_v1",
+  "formTitle": "Checklist for Advances to Employees",
+  "version": "1.0",
+  "createdAt": null,
+  "updatedAt": null,
+  "sections": [
+    {
+      "sectionId": "header",
+      "title": "General Information",
+      "order": 1,
+      "fields": [
+        {
+          "fieldId": "name_of_ulb",
+          "label": "Name of ULB",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter ULB name"
+        },
+        {
+          "fieldId": "financial_year",
+          "label": "Financial Year",
+          "type": "text",
+          "required": true,
+          "autoPopulate": true,
+          "source": "system",
+          "placeholder": "Auto-populated"
+        },
+        {
+          "fieldId": "approved_by",
+          "label": "Approved By",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter approver's name"
+        },
+        {
+          "fieldId": "note_sheet_no",
+          "label": "Note Sheet No.",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter note sheet number"
+        },
+        {
+          "fieldId": "zone_department",
+          "label": "Zone / Department",
+          "type": "text",
+          "required": true,
+          "autoPopulate": true,
+          "source": "system",
+          "placeholder": "Auto-populated"
+        }
+      ]
+    },
+    {
+      "sectionId": "employee_details",
+      "title": "Employee Details",
+      "order": 2,
+      "fields": [
+        {
+          "fieldId": "employee_name",
+          "label": "Name of Employee",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter or search employee name",
+          "source": "master_data"
+        },
+        {
+          "fieldId": "employee_pan",
+          "label": "PAN No. of Employee",
+          "type": "text",
+          "required": true,
+          "placeholder": "Auto-filled from master data",
+          "source": "master_data"
+        },
+        {
+          "fieldId": "employee_designation",
+          "label": "Designation of Employee",
+          "type": "text",
+          "required": true,
+          "placeholder": "Auto-filled from master data",
+          "source": "master_data"
+        },
+        {
+          "fieldId": "ledger_account_no",
+          "label": "Ledger A/c No.",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter or auto-fill from master data",
+          "source": "master_data"
+        }
+      ]
+    },
+    {
+      "sectionId": "advance_details",
+      "title": "Advance Details",
+      "order": 3,
+      "fields": [
+        {
+          "fieldId": "advance_requested",
+          "label": "Advance Requested",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter advance requested amount",
+          "format": "currency"
+        },
+        {
+          "fieldId": "advance_sanctioned",
+          "label": "Advance Sanctioned",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter advance sanctioned amount",
+          "format": "currency"
+        },
+        {
+          "fieldId": "date_of_sanction",
+          "label": "Date of Sanction",
+          "type": "date",
+          "required": true
+        },
+        {
+          "fieldId": "advance_disallowed",
+          "label": "Advance Subsequently Disallowed",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        },
+        {
+          "fieldId": "mode_of_payment",
+          "label": "Mode of Payment",
+          "type": "dropdown",
+          "required": true,
+          "options": [
+            { "label": "Cheque", "value": "cheque" },
+            { "label": "NEFT/RTGS", "value": "neft_rtgs" },
+            { "label": "Cash", "value": "cash" },
+            { "label": "Other", "value": "other" }
+          ]
+        },
+        {
+          "fieldId": "date_of_payment",
+          "label": "Date of Payment",
+          "type": "date",
+          "required": true
+        },
+        {
+          "fieldId": "no_of_instalments",
+          "label": "No. of Instalments for Recovery",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter number of instalments"
+        },
+        {
+          "fieldId": "amount_of_instalment",
+          "label": "Amount of Instalment",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter instalment amount",
+          "format": "currency"
+        }
+      ]
+    },
+    {
+      "sectionId": "outstanding_advance_table",
+      "title": "Total O/S Advance Against Employee as on Date",
+      "order": 4,
+      "type": "table",
+      "minRows": 1,
+      "maxRows": 50,
+      "allowAddRow": true,
+      "columns": [
+        {
+          "columnId": "oa_date",
+          "header": "Date",
+          "type": "date",
+          "width": "15%"
+        },
+        {
+          "columnId": "oa_purpose",
+          "header": "Purpose",
+          "type": "text",
+          "width": "30%"
+        },
+        {
+          "columnId": "oa_total_advance",
+          "header": "Total Advance",
+          "type": "number",
+          "format": "currency",
+          "width": "18%"
+        },
+        {
+          "columnId": "oa_repayment",
+          "header": "Repayment",
+          "type": "number",
+          "format": "currency",
+          "width": "18%"
+        },
+        {
+          "columnId": "oa_outstanding",
+          "header": "O/S as on Date",
+          "type": "number",
+          "format": "currency",
+          "width": "19%",
+          "computed": true,
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              { "columnId": "oa_total_advance" },
+              { "columnId": "oa_repayment" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "checklist_official_use",
+      "title": "Advance for Official Use",
+      "order": 5,
+      "type": "checklist_table",
+      "items": [
+        {
+          "itemId": "off_1",
+          "srNo": "1",
+          "particular": "Whether application received from employee",
+          "responseField": {
+            "fieldId": "off_1_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "off_1_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "off_2",
+          "srNo": "2",
+          "particular": "Whether expenses is for official work",
+          "responseField": {
+            "fieldId": "off_2_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "off_2_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "off_3",
+          "srNo": "3",
+          "particular": "Whether notesheet signed by Department Head",
+          "responseField": {
+            "fieldId": "off_3_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "off_3_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "off_4",
+          "srNo": "4",
+          "particular": "Whether notesheet signed by sanctioning authority",
+          "responseField": {
+            "fieldId": "off_4_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "off_4_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "off_5",
+          "srNo": "5",
+          "particular": "Whether notesheet signed by DC(F) / Account Officer",
+          "responseField": {
+            "fieldId": "off_5_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "off_5_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "checklist_personal_gpf_cpf",
+      "title": "Advance for Personal Use — Against GPF/CPF",
+      "order": 6,
+      "type": "checklist_table",
+      "items": [
+        {
+          "itemId": "gpf_1",
+          "srNo": "1",
+          "particular": "Whether application received from employee",
+          "responseField": {
+            "fieldId": "gpf_1_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gpf_1_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gpf_2",
+          "srNo": "2",
+          "particular": "Whether advance given only for purposes under Rules",
+          "responseField": {
+            "fieldId": "gpf_2_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gpf_2_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gpf_3",
+          "srNo": "3",
+          "particular": "Whether all conditions of act complied with",
+          "responseField": {
+            "fieldId": "gpf_3_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gpf_3_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gpf_4",
+          "srNo": "4",
+          "particular": "Whether notesheet signed by Department Head",
+          "responseField": {
+            "fieldId": "gpf_4_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gpf_4_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gpf_5",
+          "srNo": "5",
+          "particular": "Whether balance checked in Ledger of applicant",
+          "responseField": {
+            "fieldId": "gpf_5_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gpf_5_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gpf_6",
+          "srNo": "6",
+          "particular": "Whether notesheet signed by Sanctioning authority",
+          "responseField": {
+            "fieldId": "gpf_6_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gpf_6_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gpf_7",
+          "srNo": "7",
+          "particular": "Whether amount sanctioned does not exceed lower of 3 months pay or 50% of credited balance in GPF/CPF A/c",
+          "responseField": {
+            "fieldId": "gpf_7_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gpf_7_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gpf_8",
+          "srNo": "8",
+          "particular": "Whether notesheet signed by DC(F) / Account Officer",
+          "responseField": {
+            "fieldId": "gpf_8_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gpf_8_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "checklist_general_fund",
+      "title": "Advance Against General Fund",
+      "order": 7,
+      "type": "checklist_table",
+      "items": [
+        {
+          "itemId": "gf_1",
+          "srNo": "1",
+          "particular": "Whether application received from employee",
+          "responseField": {
+            "fieldId": "gf_1_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gf_1_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gf_2",
+          "srNo": "2",
+          "particular": "Whether notesheet signed by Department Head",
+          "responseField": {
+            "fieldId": "gf_2_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gf_2_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gf_3",
+          "srNo": "3",
+          "particular": "Whether notesheet signed by Sanctioning authority",
+          "responseField": {
+            "fieldId": "gf_3_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gf_3_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "gf_4",
+          "srNo": "4",
+          "particular": "Whether notesheet signed by Accounts Officer",
+          "responseField": {
+            "fieldId": "gf_4_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "gf_4_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "formCategory": "audit_checklist",
+    "department": "advance_to_employees",
+    "redFlagFields": [],
+    "computedFields": [
+      "oa_outstanding"
+    ],
+    "successFields": [],
+    "masterDataFields": [
+      "employee_name",
+      "employee_pan",
+      "employee_designation",
+      "ledger_account_no"
+    ],
+    "autoPopulateFields": [
+      "financial_year",
+      "zone_department"
+    ]
+  }
+}

@@ -1,0 +1,589 @@
+{
+  "formId": "consultancy_checklist_v1",
+  "formTitle": "Checklist of Consultancy",
+  "version": "1.0",
+  "createdAt": null,
+  "updatedAt": null,
+  "sections": [
+    {
+      "sectionId": "header",
+      "title": "General Information",
+      "order": 1,
+      "fields": [
+        {
+          "fieldId": "checker_name",
+          "label": "Name of Checker",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter checker's name"
+        },
+        {
+          "fieldId": "checklist_no",
+          "label": "Checklist No.",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter checklist number"
+        },
+        {
+          "fieldId": "checklist_date",
+          "label": "Date",
+          "type": "date",
+          "required": true
+        }
+      ]
+    },
+    {
+      "sectionId": "admin_approval",
+      "title": "Admin Approval",
+      "order": 2,
+      "fields": [
+        {
+          "fieldId": "admin_approval_status",
+          "label": "Admin Approval",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "admin_approval_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "admin_approval_number",
+              "label": "Approval Number",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter approval number manually"
+            },
+            {
+              "fieldId": "admin_approval_date",
+              "label": "Date",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "admin_approval_value",
+              "label": "Value",
+              "type": "number",
+              "required": true,
+              "placeholder": "Enter value"
+            },
+            {
+              "fieldId": "admin_approval_approver_name",
+              "label": "Name of Approver",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter approver's name"
+            },
+            {
+              "fieldId": "admin_approval_authority",
+              "label": "Authority of Approver",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter authority of approver"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "admin_approval_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "admin_approval_red_flag",
+              "label": "Red Flag Query",
+              "type": "readonly",
+              "defaultValue": "Admin approval not available",
+              "flagType": "red_flag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "tender_published",
+      "title": "Tender Published",
+      "order": 3,
+      "fields": [
+        {
+          "fieldId": "tender_published_status",
+          "label": "Tender Published",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "tender_published_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_publish_date",
+              "label": "Date of Publication",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "tender_newspaper_names",
+              "label": "Name of Newspaper(s)",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter newspaper name(s)"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "tender_published_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_published_red_flag",
+              "label": "Red Flag Query",
+              "type": "readonly",
+              "defaultValue": "Publishing details not available",
+              "flagType": "red_flag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "participants",
+      "title": "Participation Details",
+      "order": 4,
+      "fields": [
+        {
+          "fieldId": "no_of_participants",
+          "label": "No. of Participants",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter number of participants manually"
+        }
+      ]
+    },
+    {
+      "sectionId": "tender_committee_approval",
+      "title": "Tender Committee Approval",
+      "order": 5,
+      "fields": [
+        {
+          "fieldId": "tender_committee_status",
+          "label": "Tender Committee Approval",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "tender_committee_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_committee_number",
+              "label": "Approval Number",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter approval number manually"
+            },
+            {
+              "fieldId": "tender_committee_date",
+              "label": "Date",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "tender_committee_value",
+              "label": "Value",
+              "type": "number",
+              "required": true,
+              "placeholder": "Enter value"
+            },
+            {
+              "fieldId": "tender_committee_approver_name",
+              "label": "Name of Approver",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter approver's name"
+            },
+            {
+              "fieldId": "tender_committee_authority",
+              "label": "Authority of Approver",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter authority of approver"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "tender_committee_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_committee_red_flag",
+              "label": "Red Flag Query",
+              "type": "readonly",
+              "defaultValue": "Tender Committee approval not available",
+              "flagType": "red_flag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "bill_info",
+      "title": "Bill Information",
+      "order": 6,
+      "fields": [
+        {
+          "fieldId": "bill_type",
+          "label": "Bill Type",
+          "type": "dropdown",
+          "required": true,
+          "options": [
+            { "label": "RA Bill", "value": "ra_bill" },
+            { "label": "Final Bill", "value": "final_bill" }
+          ]
+        },
+        {
+          "fieldId": "bill_number",
+          "label": "Bill Number",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter bill number"
+        },
+        {
+          "fieldId": "bill_amount",
+          "label": "Bill Amount",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter bill amount",
+          "format": "currency"
+        }
+      ]
+    },
+    {
+      "sectionId": "fund_availability",
+      "title": "Availability of Remaining Fund",
+      "order": 7,
+      "fields": [
+        {
+          "fieldId": "amount_sanctioned",
+          "label": "Amount Sanctioned (a)",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter sanctioned amount",
+          "format": "currency",
+          "refKey": "a"
+        },
+        {
+          "fieldId": "payment_till_date",
+          "label": "Payment Till Date (b)",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter payment till date",
+          "format": "currency",
+          "refKey": "b"
+        },
+        {
+          "fieldId": "remaining_balance",
+          "label": "Remaining Balance (a - b)",
+          "type": "number",
+          "readonly": true,
+          "format": "currency",
+          "computed": true,
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              { "fieldId": "amount_sanctioned" },
+              { "fieldId": "payment_till_date" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "payment_summary_table",
+      "title": "Payment Summary",
+      "order": 8,
+      "type": "table",
+      "minRows": 1,
+      "maxRows": 20,
+      "allowAddRow": true,
+      "columns": [
+        {
+          "columnId": "ps_bill_number",
+          "header": "Bill Number",
+          "type": "text",
+          "width": "12%"
+        },
+        {
+          "columnId": "ps_note_sheet_no",
+          "header": "Note Sheet No.",
+          "type": "text",
+          "width": "12%"
+        },
+        {
+          "columnId": "ps_bill_amount",
+          "header": "Bill Amount",
+          "type": "number",
+          "format": "currency",
+          "width": "14%"
+        },
+        {
+          "columnId": "ps_gross_payment",
+          "header": "Gross Payment",
+          "type": "number",
+          "format": "currency",
+          "width": "14%"
+        },
+        {
+          "columnId": "ps_deduction_head",
+          "header": "Deduction Head",
+          "type": "text",
+          "width": "14%"
+        },
+        {
+          "columnId": "ps_deduction_amount",
+          "header": "Deduction Amount",
+          "type": "number",
+          "format": "currency",
+          "width": "14%"
+        },
+        {
+          "columnId": "ps_net_payment",
+          "header": "Net Payment",
+          "type": "number",
+          "format": "currency",
+          "width": "14%",
+          "computed": true,
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              { "columnId": "ps_gross_payment" },
+              { "columnId": "ps_deduction_amount" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "verification_checklist",
+      "title": "Verification Checklist",
+      "order": 9,
+      "type": "checklist_table",
+      "items": [
+        {
+          "itemId": "vc_1_1",
+          "srNo": "1.1",
+          "particular": "Whether Bill approved by appropriate authority?",
+          "responseField": {
+            "fieldId": "vc_1_1_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_1_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_2",
+          "srNo": "1.2",
+          "particular": "Whether deliverables submitted by consultant are as per agreement, please mention details of authority, reviewed the deliverables",
+          "responseField": {
+            "fieldId": "vc_1_2_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_2_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_3",
+          "srNo": "1.3",
+          "particular": "If payment are attendance based, whether proper attendance register maintained and approved by concerned Authority",
+          "responseField": {
+            "fieldId": "vc_1_3_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_3_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_4",
+          "srNo": "1.4",
+          "particular": "Whether earnest Money/Security Deposit is ---% or more of the estimated Consideration value",
+          "responseField": {
+            "fieldId": "vc_1_4_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_4_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "bill_details_table",
+      "title": "Bill Details",
+      "order": 10,
+      "type": "line_items_table",
+      "columns": [
+        {
+          "columnId": "bd_sr_no",
+          "header": "S.No",
+          "type": "readonly"
+        },
+        {
+          "columnId": "bd_head",
+          "header": "Head",
+          "type": "readonly"
+        },
+        {
+          "columnId": "bd_rate",
+          "header": "Rate",
+          "type": "number",
+          "format": "currency"
+        },
+        {
+          "columnId": "bd_amount",
+          "header": "Amount",
+          "type": "number",
+          "format": "currency"
+        },
+        {
+          "columnId": "bd_remark",
+          "header": "Remark",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "rowId": "bd_1_1",
+          "srNo": "1.1",
+          "head": "Gross Amount as approved by Auditor/ Accounts Officer",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_2",
+          "srNo": "1.2",
+          "head": "Security Deposit",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_3",
+          "srNo": "1.3",
+          "head": "GST",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_4",
+          "srNo": "1.4",
+          "head": "Income Tax",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_5",
+          "srNo": "1.5",
+          "head": "Penalty/ LD",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_6",
+          "srNo": "1.6",
+          "head": "Advance adjusted",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_7",
+          "srNo": "1.7",
+          "head": "Under/ Over payment in last bill",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_8",
+          "srNo": "1.8",
+          "head": "Difference in Amount as per agreement and total invoice till date",
+          "isEditable": true
+        }
+      ],
+      "summary": {
+        "rowId": "bd_net_amount",
+        "head": "Net Amount eligible for payment",
+        "type": "computed",
+        "formula": {
+          "operation": "custom",
+          "description": "Gross Amount (1.1) - Security Deposit (1.2) - GST (1.3) - Income Tax (1.4) - Penalty/LD (1.5) - Advance adjusted (1.6) +/- Under/Over payment (1.7) +/- Difference (1.8)",
+          "base": "bd_1_1",
+          "deductions": ["bd_1_2", "bd_1_3", "bd_1_4", "bd_1_5", "bd_1_6"],
+          "adjustments": ["bd_1_7", "bd_1_8"]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "formCategory": "audit_checklist",
+    "department": "consultancy",
+    "redFlagFields": [
+      "admin_approval_red_flag",
+      "tender_published_red_flag",
+      "tender_committee_red_flag"
+    ],
+    "computedFields": [
+      "remaining_balance",
+      "ps_net_payment",
+      "bd_net_amount"
+    ]
+  }
+}

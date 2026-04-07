@@ -1,0 +1,1072 @@
+{
+  "formId": "store_procurement_checklist_v1",
+  "formTitle": "Checklist of Store Procurement",
+  "version": "1.0",
+  "createdAt": null,
+  "updatedAt": null,
+  "sections": [
+    {
+      "sectionId": "header",
+      "title": "General Information",
+      "order": 1,
+      "fields": [
+        {
+          "fieldId": "checker_name",
+          "label": "Name of Checker",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter checker's name"
+        },
+        {
+          "fieldId": "checklist_no",
+          "label": "Checklist No.",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter checklist number"
+        },
+        {
+          "fieldId": "checklist_date",
+          "label": "Date",
+          "type": "date",
+          "required": true
+        }
+      ]
+    },
+    {
+      "sectionId": "gem_availability",
+      "title": "Item Availability in GEM",
+      "order": 2,
+      "fields": [
+        {
+          "fieldId": "gem_availability_status",
+          "label": "Item Availability in GEM",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "gem_availability_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "gem_ok_note",
+              "label": "Status",
+              "type": "readonly",
+              "defaultValue": "Item available in GEM — OK",
+              "flagType": "success"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "gem_availability_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "gem_non_availability_report",
+              "label": "Non Availability Report Available?",
+              "type": "radio",
+              "required": true,
+              "options": [
+                { "label": "Yes", "value": "yes" },
+                { "label": "No", "value": "no" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "mode_of_purchase",
+      "title": "Mode of Purchase",
+      "order": 3,
+      "fields": [
+        {
+          "fieldId": "purchase_mode",
+          "label": "Mode of Purchase",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "By Quotation", "value": "quotation" },
+            { "label": "By Tender", "value": "tender" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "purchase_mode",
+            "equals": "quotation"
+          },
+          "fields": [
+            {
+              "fieldId": "quotation_number",
+              "label": "Quotation Number",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter quotation number"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "purchase_mode",
+            "equals": "tender"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_number",
+              "label": "Tender Number",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter tender number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "estimated_amount",
+      "title": "Estimate & Funding",
+      "order": 4,
+      "fields": [
+        {
+          "fieldId": "estimated_amount",
+          "label": "Estimated Amount",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter estimated amount",
+          "format": "currency"
+        },
+        {
+          "fieldId": "source_of_fund",
+          "label": "Source of Fund",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter source of fund"
+        }
+      ]
+    },
+    {
+      "sectionId": "financial_approval",
+      "title": "Financial Approval",
+      "order": 5,
+      "fields": [
+        {
+          "fieldId": "financial_approval_status",
+          "label": "Financial Approval",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "financial_approval_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "financial_approval_number",
+              "label": "Approval Number",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter approval number"
+            },
+            {
+              "fieldId": "financial_approval_date",
+              "label": "Date",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "financial_approval_value",
+              "label": "Value",
+              "type": "number",
+              "required": true,
+              "placeholder": "Enter value",
+              "format": "currency"
+            },
+            {
+              "fieldId": "financial_approval_approver_name",
+              "label": "Name of Approver",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter approver's name"
+            },
+            {
+              "fieldId": "financial_approval_authority",
+              "label": "Authority of Approver",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter authority of approver"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "financial_approval_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "financial_approval_red_flag",
+              "label": "Red Flag Query",
+              "type": "readonly",
+              "defaultValue": "Financial approval not available",
+              "flagType": "red_flag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "tender_published",
+      "title": "Tender Published",
+      "order": 6,
+      "fields": [
+        {
+          "fieldId": "tender_published_status",
+          "label": "Tender Published",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "tender_published_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_publish_date",
+              "label": "Date of Publication",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "tender_newspaper_names",
+              "label": "Name of Newspaper(s)",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter newspaper name(s)"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "tender_published_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_published_red_flag",
+              "label": "Red Flag Query",
+              "type": "readonly",
+              "defaultValue": "Publishing details not available",
+              "flagType": "red_flag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "tender_committee_approval",
+      "title": "Tender Committee Approval",
+      "order": 7,
+      "fields": [
+        {
+          "fieldId": "tender_committee_status",
+          "label": "Tender Committee Approval",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "tender_committee_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_committee_number",
+              "label": "Approval Number",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter approval number"
+            },
+            {
+              "fieldId": "tender_committee_date",
+              "label": "Date",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "tender_committee_value",
+              "label": "Value",
+              "type": "number",
+              "required": true,
+              "placeholder": "Enter value",
+              "format": "currency"
+            },
+            {
+              "fieldId": "tender_committee_approver_name",
+              "label": "Name of Approver",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter approver's name"
+            },
+            {
+              "fieldId": "tender_committee_authority",
+              "label": "Authority of Approver",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter authority of approver"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "tender_committee_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "tender_committee_red_flag",
+              "label": "Red Flag Query",
+              "type": "readonly",
+              "defaultValue": "Tender Committee approval not available",
+              "flagType": "red_flag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "purchase_order",
+      "title": "Purchase Order",
+      "order": 8,
+      "fields": [
+        {
+          "fieldId": "purchase_order_status",
+          "label": "Purchase Order Available",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "purchase_order_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "purchase_order_number",
+              "label": "Purchase Order No.",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter purchase order number"
+            },
+            {
+              "fieldId": "supply_date_as_per_po",
+              "label": "Date of Supply as per PO",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "actual_supply_date",
+              "label": "Actual Date of Supply",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "extended_supply_date",
+              "label": "Extended Date of Supply",
+              "type": "date",
+              "required": false
+            },
+            {
+              "fieldId": "extended_supply_remark",
+              "label": "Remark for Extension",
+              "type": "textarea",
+              "required": false,
+              "placeholder": "Enter remark if extension applicable",
+              "showWhen": {
+                "fieldId": "extended_supply_date",
+                "condition": "not_empty"
+              }
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "purchase_order_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "purchase_order_red_flag",
+              "label": "Red Flag Query",
+              "type": "readonly",
+              "defaultValue": "Purchase order not available",
+              "flagType": "red_flag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "inventory_details",
+      "title": "Details of Inventory",
+      "order": 9,
+      "type": "table",
+      "minRows": 1,
+      "maxRows": 50,
+      "allowAddRow": true,
+      "columns": [
+        {
+          "columnId": "inv_hsn",
+          "header": "HSN",
+          "type": "text",
+          "width": "15%"
+        },
+        {
+          "columnId": "inv_name",
+          "header": "Name",
+          "type": "text",
+          "width": "35%"
+        },
+        {
+          "columnId": "inv_quantity",
+          "header": "Quantity",
+          "type": "number",
+          "width": "20%"
+        },
+        {
+          "columnId": "inv_amount",
+          "header": "Amount",
+          "type": "number",
+          "format": "currency",
+          "width": "25%"
+        }
+      ]
+    },
+    {
+      "sectionId": "storekeeper_acknowledgement",
+      "title": "Acknowledgement of Store Keeper",
+      "order": 10,
+      "fields": [
+        {
+          "fieldId": "storekeeper_ack_status",
+          "label": "Acknowledgement Available",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": {
+            "fieldId": "storekeeper_ack_status",
+            "equals": "yes"
+          },
+          "fields": [
+            {
+              "fieldId": "store_book_page_no",
+              "label": "Page No. of Store Book",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter page number"
+            },
+            {
+              "fieldId": "store_issue_date",
+              "label": "Issue Date",
+              "type": "date",
+              "required": true
+            },
+            {
+              "fieldId": "store_receiver_name",
+              "label": "Receiver Name",
+              "type": "text",
+              "required": true,
+              "placeholder": "Enter receiver's name"
+            }
+          ]
+        },
+        {
+          "showWhen": {
+            "fieldId": "storekeeper_ack_status",
+            "equals": "no"
+          },
+          "fields": [
+            {
+              "fieldId": "storekeeper_ack_red_flag",
+              "label": "Red Flag Query",
+              "type": "readonly",
+              "defaultValue": "Acknowledgement not available",
+              "flagType": "red_flag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "bill_info",
+      "title": "Bill Information",
+      "order": 11,
+      "fields": [
+        {
+          "fieldId": "bill_type",
+          "label": "Bill Type",
+          "type": "dropdown",
+          "required": true,
+          "options": [
+            { "label": "RA Bill", "value": "ra_bill" },
+            { "label": "Final Bill", "value": "final_bill" }
+          ]
+        },
+        {
+          "fieldId": "bill_number",
+          "label": "Bill Number",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter bill number"
+        },
+        {
+          "fieldId": "bill_amount",
+          "label": "Bill Amount",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter bill amount",
+          "format": "currency"
+        }
+      ]
+    },
+    {
+      "sectionId": "fund_availability",
+      "title": "Availability of Remaining Fund",
+      "order": 12,
+      "fields": [
+        {
+          "fieldId": "amount_sanctioned",
+          "label": "Amount Sanctioned (a)",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter sanctioned amount",
+          "format": "currency",
+          "refKey": "a"
+        },
+        {
+          "fieldId": "payment_till_date",
+          "label": "Payment Till Date (b)",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter payment till date",
+          "format": "currency",
+          "refKey": "b"
+        },
+        {
+          "fieldId": "remaining_balance",
+          "label": "Remaining Balance (a − b)",
+          "type": "number",
+          "readonly": true,
+          "format": "currency",
+          "computed": true,
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              { "fieldId": "amount_sanctioned" },
+              { "fieldId": "payment_till_date" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "payment_summary_table",
+      "title": "Payment Summary",
+      "order": 13,
+      "type": "table",
+      "minRows": 1,
+      "maxRows": 20,
+      "allowAddRow": true,
+      "columns": [
+        {
+          "columnId": "ps_bill_number",
+          "header": "Bill Number",
+          "type": "text",
+          "width": "12%"
+        },
+        {
+          "columnId": "ps_note_sheet_no",
+          "header": "Note Sheet No.",
+          "type": "text",
+          "width": "13%"
+        },
+        {
+          "columnId": "ps_bill_amount",
+          "header": "Bill Amount",
+          "type": "number",
+          "format": "currency",
+          "width": "14%"
+        },
+        {
+          "columnId": "ps_gross_payment",
+          "header": "Gross Payment",
+          "type": "number",
+          "format": "currency",
+          "width": "14%"
+        },
+        {
+          "columnId": "ps_deduction_head",
+          "header": "Deduction Head",
+          "type": "text",
+          "width": "14%"
+        },
+        {
+          "columnId": "ps_deduction_amount",
+          "header": "Deduction Amount",
+          "type": "number",
+          "format": "currency",
+          "width": "14%"
+        },
+        {
+          "columnId": "ps_net_payment",
+          "header": "Net Payment",
+          "type": "number",
+          "format": "currency",
+          "width": "14%",
+          "computed": true,
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              { "columnId": "ps_gross_payment" },
+              { "columnId": "ps_deduction_amount" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "verification_checklist",
+      "title": "Verification Checklist",
+      "order": 14,
+      "type": "checklist_table",
+      "items": [
+        {
+          "itemId": "vc_1_1",
+          "srNo": "1.1",
+          "particular": "Whether physical verification of inventories are proper.",
+          "responseField": {
+            "fieldId": "vc_1_1_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_1_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_2",
+          "srNo": "1.2",
+          "particular": "Whether comparative statements prepared and approved by appropriate authority.",
+          "responseField": {
+            "fieldId": "vc_1_2_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_2_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_3",
+          "srNo": "1.3",
+          "particular": "Whether copy of agreements/PO/tender for purchases more than Rs.1 lakh was inspected by the Auditor",
+          "responseField": {
+            "fieldId": "vc_1_3_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_3_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_4",
+          "srNo": "1.4",
+          "particular": "Whether earnest Money/Security Deposit is 3% or more of the estimated purchase value",
+          "responseField": {
+            "fieldId": "vc_1_4_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_4_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_5",
+          "srNo": "1.5",
+          "particular": "Whether Industries registered as Small-Scale Industrial Units were given priority as per rules",
+          "responseField": {
+            "fieldId": "vc_1_5_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_5_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_5_1",
+          "srNo": "1.5.1",
+          "particular": "If yes then whether they are given exemption from depositing EMD",
+          "parentItemId": "vc_1_5",
+          "showWhen": {
+            "fieldId": "vc_1_5_response",
+            "equals": "yes"
+          },
+          "responseField": {
+            "fieldId": "vc_1_5_1_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_5_1_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_6",
+          "srNo": "1.6",
+          "particular": "Whether important plant & machinery purchased from supplier registered with DGA&D",
+          "responseField": {
+            "fieldId": "vc_1_6_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_6_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_7",
+          "srNo": "1.7",
+          "particular": "Whether payment is likely to be made within 20 days of invoice/goods received",
+          "responseField": {
+            "fieldId": "vc_1_7_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_7_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_8",
+          "srNo": "1.8",
+          "particular": "Whether in case of late payment without reason, interest at prevailing bank rate to be paid along with payment",
+          "responseField": {
+            "fieldId": "vc_1_8_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_8_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        },
+        {
+          "itemId": "vc_1_9",
+          "srNo": "1.9",
+          "particular": "Prepare Calculation in Prescribed excel sheet",
+          "responseField": {
+            "fieldId": "vc_1_9_response",
+            "type": "dropdown",
+            "options": [
+              { "label": "Yes", "value": "yes" },
+              { "label": "No", "value": "no" },
+              { "label": "N/A", "value": "na" }
+            ]
+          },
+          "remarkField": {
+            "fieldId": "vc_1_9_remark",
+            "type": "text",
+            "placeholder": "Enter remark"
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "bill_details_table",
+      "title": "Bill Details",
+      "order": 15,
+      "type": "line_items_table",
+      "columns": [
+        {
+          "columnId": "bd_sr_no",
+          "header": "S.No",
+          "type": "readonly"
+        },
+        {
+          "columnId": "bd_head",
+          "header": "Head",
+          "type": "readonly"
+        },
+        {
+          "columnId": "bd_rate",
+          "header": "Rate",
+          "type": "number",
+          "format": "currency"
+        },
+        {
+          "columnId": "bd_amount",
+          "header": "Amount",
+          "type": "number",
+          "format": "currency"
+        },
+        {
+          "columnId": "bd_remark",
+          "header": "Remark",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "rowId": "bd_1_1",
+          "srNo": "1.1",
+          "head": "Gross Amount as approved by Auditor/Accounts Officer",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_2",
+          "srNo": "1.2",
+          "head": "Security Deposit",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_3",
+          "srNo": "1.3",
+          "head": "Income Tax",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_4",
+          "srNo": "1.4",
+          "head": "Penalty / LD",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_5",
+          "srNo": "1.5",
+          "head": "Advance adjusted",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_6",
+          "srNo": "1.6",
+          "head": "Under/Over payment in last bill",
+          "isEditable": true
+        },
+        {
+          "rowId": "bd_1_7",
+          "srNo": "1.7",
+          "head": "Difference in Amount as per agreement and total invoice till date",
+          "isEditable": true
+        }
+      ],
+      "summary": {
+        "rowId": "bd_net_amount",
+        "head": "Net Amount eligible for payment",
+        "type": "computed",
+        "formula": {
+          "operation": "custom",
+          "description": "Gross Amount (1.1) - Security Deposit (1.2) - Income Tax (1.3) - Penalty/LD (1.4) - Advance adjusted (1.5) +/- Under/Over payment (1.6) +/- Difference (1.7)",
+          "base": "bd_1_1",
+          "deductions": ["bd_1_2", "bd_1_3", "bd_1_4", "bd_1_5"],
+          "adjustments": ["bd_1_6", "bd_1_7"]
+        }
+      }
+    },
+    {
+      "sectionId": "books_of_accounts",
+      "title": "Books of Accounts to be Updated",
+      "order": 16,
+      "type": "document_checklist",
+      "items": [
+        {
+          "itemId": "boa_1",
+          "srNo": "1",
+          "document": "Stock Register",
+          "checkField": {
+            "fieldId": "boa_1_checked",
+            "type": "checkbox",
+            "label": "Updated"
+          }
+        },
+        {
+          "itemId": "boa_2",
+          "srNo": "2",
+          "document": "Cheque Issue Register",
+          "checkField": {
+            "fieldId": "boa_2_checked",
+            "type": "checkbox",
+            "label": "Updated"
+          }
+        },
+        {
+          "itemId": "boa_3",
+          "srNo": "3",
+          "document": "Cash Book",
+          "checkField": {
+            "fieldId": "boa_3_checked",
+            "type": "checkbox",
+            "label": "Updated"
+          }
+        },
+        {
+          "itemId": "boa_4",
+          "srNo": "4",
+          "document": "Work File",
+          "checkField": {
+            "fieldId": "boa_4_checked",
+            "type": "checkbox",
+            "label": "Updated"
+          }
+        },
+        {
+          "itemId": "boa_5",
+          "srNo": "5",
+          "document": "Grant Register",
+          "conditional": true,
+          "conditionNote": "if applicable",
+          "checkField": {
+            "fieldId": "boa_5_checked",
+            "type": "checkbox",
+            "label": "Updated"
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "documents_from_supplier",
+      "title": "Documents to be Collected from Supplier",
+      "order": 17,
+      "type": "document_checklist",
+      "items": [
+        {
+          "itemId": "dfs_1",
+          "srNo": "1",
+          "document": "Tax Invoice",
+          "checkField": {
+            "fieldId": "dfs_1_checked",
+            "type": "checkbox",
+            "label": "Collected"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "formCategory": "audit_checklist",
+    "department": "store_procurement",
+    "redFlagFields": [
+      "financial_approval_red_flag",
+      "tender_published_red_flag",
+      "tender_committee_red_flag",
+      "purchase_order_red_flag",
+      "storekeeper_ack_red_flag"
+    ],
+    "computedFields": [
+      "remaining_balance",
+      "ps_net_payment",
+      "bd_net_amount"
+    ],
+    "successFields": [
+      "gem_ok_note"
+    ]
+  }
+}
