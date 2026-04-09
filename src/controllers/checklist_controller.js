@@ -271,8 +271,24 @@ export const getChecklistDetails = async (req, res) => {
           }
         });
       }
-
+      // ── Dynamic table — parse JSON blob back into savedRows ───────────
+      if (section.type === "table") {
+        const key = `__table_${section.sectionId}`;
+        const saved = responseMap[key];
+        if (saved?.value) {
+          try {
+            section.savedRows = JSON.parse(saved.value);
+            console.log(`✅ Loaded ${section.savedRows.length} rows for ${section.sectionId}`);
+          } catch {
+            console.warn(`⚠️ Could not parse table data for ${section.sectionId}`);
+            section.savedRows = [];
+          }
+        } else {
+          section.savedRows = [];
+        }
+      }
       // Document checklist
+      // Document checklist — already correct in your backend, just verify it's there
       if (section.type === "document_checklist") {
         section.items?.forEach(item => {
           if (item.checkField?.fieldId) {
@@ -283,13 +299,38 @@ export const getChecklistDetails = async (req, res) => {
       }
 
       // Line items table: keys are stored as `${rowId}_amount` and `${rowId}_remark`
+      // Line items table: keys stored as `rowId_columnId` (single underscore)
+      // FIX: was hardcoded to _amount and _remark only — now uses columnId to
+      // match the frontend's `${row.rowId}_${col.columnId}` convention.
+      // ── Line items table — inject savedValues per column ─────────────
       if (section.type === "line_items_table") {
         section.rows?.forEach(row => {
-          const amount = responseMap[`${row.rowId}_amount`];
-          const remark = responseMap[`${row.rowId}_remark`];
-          row.savedAmount = amount?.value ?? null;
-          row.savedRemark = remark?.value ?? null;
+          row.savedValues = {};
+          section.columns?.forEach(col => {
+            if (col.type === "readonly") return;
+            const key = `${row.rowId}_${col.columnId}`;
+            row.savedValues[col.columnId] = responseMap[key]?.value ?? null;
+          });
+          // legacy compat
+          row.savedAmount = row.savedValues?.bd_amount ?? null;
+          row.savedRemark = row.savedValues?.bd_remark ?? null;
         });
+      }
+
+      // ── Dynamic table — parse JSON blob into savedRows ────────────────
+      if (section.type === "table") {
+        const key = `__table_${section.sectionId}`;
+        const saved = responseMap[key];
+        if (saved?.value) {
+          try {
+            section.savedRows = JSON.parse(saved.value);
+          } catch {
+            console.warn(`⚠️ Could not parse table rows for ${section.sectionId}`);
+            section.savedRows = [];
+          }
+        } else {
+          section.savedRows = [];
+        }
       }
 
       // Dynamic table columns — row data stored separately, skip injection here
@@ -310,7 +351,6 @@ export const getChecklistDetails = async (req, res) => {
 };
 export const saveChecklistResponses = async (req, res) => {
   try {
-
     const { checklistId } = req.params;
     const { responses } = req.body;
     const userId = req.user.id;
@@ -333,21 +373,39 @@ export const saveChecklistResponses = async (req, res) => {
       .where(eq(checklistTemplateQuestions.templateId, templateId));
 
     const questionMap = {};
-
     questions.forEach(q => {
       questionMap[q.questionKey] = q.id;
     });
+
+    // FIX: log dropped keys so silent failures are visible in server logs
+    const dropped = responses.filter(r => !questionMap[r.questionId]);
+    if (dropped.length > 0) {
+      console.warn(
+        `⚠️  ${dropped.length} response(s) dropped — questionKey not found in template [${templateId}]:`,
+        dropped.map(r => r.questionId)
+      );
+    }
 
     const values = responses
       .filter(r => questionMap[r.questionId])
       .map(r => ({
         checklistId,
         questionId: questionMap[r.questionId],
+        // FIX: allow null values so cleared fields are actually persisted
         responseValue: r.responseValue ?? null,
         remark: r.remark ?? null,
         respondedAt: new Date(),
-        respondedBy: userId
+        respondedBy: userId,
       }));
+
+    if (values.length === 0) {
+      console.warn("⚠️  No valid responses to save after filtering.");
+      return res.json({
+        success: true,
+        message: "No valid responses to save",
+        dropped: dropped.length,
+      });
+    }
 
     await db
       .insert(checklistResponses)
@@ -355,27 +413,31 @@ export const saveChecklistResponses = async (req, res) => {
       .onConflictDoUpdate({
         target: [
           checklistResponses.checklistId,
-          checklistResponses.questionId
+          checklistResponses.questionId,
         ],
         set: {
+          // FIX: allow null to overwrite — clears previously saved values
           responseValue: sql`excluded.response_value`,
           remark: sql`excluded.remark`,
           respondedAt: new Date(),
-          respondedBy: userId
-        }
+          respondedBy: userId,
+        },
       });
 
-    res.json({
+    console.log(`✅ Saved ${values.length} responses for checklist ${checklistId}`);
+
+    return res.json({
       success: true,
-      message: "Checklist responses saved"
+      message: "Checklist responses saved",
+      saved: values.length,
+      dropped: dropped.length,
     });
 
   } catch (err) {
     console.error("SAVE CHECKLIST RESPONSES ERROR:", err);
-
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Failed to save responses"
+      message: "Failed to save responses",
     });
   }
 };
@@ -496,10 +558,10 @@ export const uploadChecklistAttachments = async (req, res) => {
       }
     };
 
-    await processFiles(req.files?.firstPage,          "page",     "FIRST");
-    await processFiles(req.files?.lastPage,            "page",     "LAST");
-    await processFiles(req.files?.intermediatePages,   "page",     "INTERMEDIATE");
-    await processFiles(req.files?.documents,           "document", "DOC");
+    await processFiles(req.files?.firstPage, "page", "FIRST");
+    await processFiles(req.files?.lastPage, "page", "LAST");
+    await processFiles(req.files?.intermediatePages, "page", "INTERMEDIATE");
+    await processFiles(req.files?.documents, "document", "DOC");
 
     console.log("📦 Total attachments prepared:", allAttachments.length);
 

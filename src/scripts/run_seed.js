@@ -16,22 +16,22 @@ import { seedTemplateQuestions } from "./seed_template_questions.js";
 const TEMPLATE_MAP = [
   {
     formId:     "manpower_checklist_v1",
-    templateId: "aff9289f-1fec-4a0d-903f-3ce0040485db", 
+    templateId: "443de5e8-cfc3-4f11-98df-446f84c1d737", 
     jsonPath:   "src/data/manpower_checklist.json",
   },
   {
     formId:     "store_procurement_checklist_v1",
-    templateId: "1de0e9d3-eb6b-4802-99f3-6dfff3dcfeb9",
+    templateId: "f6df8dcc-2d1d-432e-9892-0485dd844a89",
     jsonPath:   "src/data/store_procurement_checklist.json",
   },
   {
     formId:     "advance_to_employees_checklist_v1",
-    templateId: "c09ac018-1f80-428d-8386-f5f3900f194e",
+    templateId: "d7801530-b05b-44dd-bd06-165d8c6056b3",
     jsonPath:   "src/data/advance_to_employees_checklist.json",
   },
   {
     formId:     "consultancy_checklist_v1",
-    templateId: "99999999-9999-9999-9999-000000000002",
+    templateId: "2b165788-0ae1-4f37-89de-8ac5edf11f12",
     jsonPath:   "src/data/consultancy_checklist.json",
   },
 ];

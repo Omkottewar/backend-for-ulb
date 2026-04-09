@@ -17,24 +17,11 @@ export const createFile = async (req, res) => {
       supplierId,
       contractTypeId,
       officerName,
+      templateId,
       workDescription,
       amount,
       riskFlag,
     } = req.body;
-
-    console.log("🔍 Parsed fields:");
-    console.log({
-      fileNumber,
-      fileTitle,
-      ulbId,
-      supplierId,
-      contractTypeId,
-      officerName,
-      workDescription,
-      amount,
-      riskFlag,
-      amountType: typeof amount
-    });
 
     const userId = req.user.id;
 
@@ -74,7 +61,11 @@ export const createFile = async (req, res) => {
 
       const fileId = newFile.id;
 
-      const templateId = req.body.templateId || "aff9289f-1fec-4a0d-903f-3ce0040485db";
+      const templateId = req.body.templateId ;
+      if(!templateId) {
+        console.error("❌ templateId is required to create checklist");
+        throw new Error("templateId is required");
+      }
 
       console.log("📋 Creating checklist with template:", templateId);
 
