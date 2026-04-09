@@ -8,10 +8,8 @@ import { eq } from "drizzle-orm";
 
 export const createFile = async (req, res) => {
   try {
-
     console.log("📥 Incoming createFile request body:");
     console.log(JSON.stringify(req.body, null, 2));
-
     const {
       fileNumber,
       fileTitle,

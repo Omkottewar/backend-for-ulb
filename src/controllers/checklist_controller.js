@@ -405,10 +405,8 @@ export const getChecklistAttachments = async (req, res) => {
     });
   }
 };
-
 export const uploadChecklistAttachments = async (req, res) => {
   try {
-
     console.log("📥 Upload checklist attachments");
 
     const { fileId, checklistId } = req.params;
@@ -420,35 +418,70 @@ export const uploadChecklistAttachments = async (req, res) => {
       });
     }
 
+    if (!fileId) {
+      return res.status(400).json({
+        success: false,
+        message: "fileId is required"
+      });
+    }
+
+    // ✅ Verify checklist exists and fileId matches
+    const checklistResult = await db
+      .select()
+      .from(checklists)
+      .where(eq(checklists.id, checklistId))
+      .limit(1);
+
+    if (!checklistResult.length) {
+      return res.status(404).json({
+        success: false,
+        message: "Checklist not found"
+      });
+    }
+
+    const trustedFileId = checklistResult[0].fileId;
+
+    if (trustedFileId !== fileId) {
+      console.error(`❌ fileId mismatch: param=${fileId}, db=${trustedFileId}`);
+      return res.status(400).json({
+        success: false,
+        message: "fileId mismatch: param does not match checklist record"
+      });
+    }
+
     const userId = req.user.id;
     const supabase = getSupabase();
     const allAttachments = [];
 
     const uploadToSupabase = async (file) => {
-
       const filePath = `checklists/${checklistId}/${Date.now()}-${file.originalname}`;
+
+      console.log("⬆ Uploading to Supabase:", filePath);
 
       const { error } = await supabase.storage
         .from(STORAGE_BUCKET)
         .upload(filePath, file.buffer);
 
-      if (error) throw error;
+      if (error) {
+        console.error("❌ Supabase upload error:", error);
+        throw error;
+      }
 
+      console.log("✅ Uploaded:", filePath);
       return filePath;
     };
 
     const processFiles = async (filesArr, category, slotPrefix) => {
+      if (!filesArr || filesArr.length === 0) return;
 
-      if (!filesArr) return;
+      console.log(`📂 Processing [${category}/${slotPrefix}] — ${filesArr.length} file(s)`);
 
       for (let i = 0; i < filesArr.length; i++) {
-
         const file = filesArr[i];
-
         const storagePath = await uploadToSupabase(file);
 
         allAttachments.push({
-          fileId,
+          fileId: trustedFileId,   // ✅ always use the DB-verified fileId
           checklistId,
           category,
           slot: `${slotPrefix}_${i + 1}`,
@@ -460,33 +493,39 @@ export const uploadChecklistAttachments = async (req, res) => {
           storageBackend: "s3",
           uploadedBy: userId,
         });
-
       }
     };
 
-    await processFiles(req.files?.firstPage, "page", "FIRST");
-    await processFiles(req.files?.lastPage, "page", "LAST");
-    await processFiles(req.files?.intermediatePages, "page", "INTERMEDIATE");
-    await processFiles(req.files?.documents, "document", "DOC");
+    await processFiles(req.files?.firstPage,          "page",     "FIRST");
+    await processFiles(req.files?.lastPage,            "page",     "LAST");
+    await processFiles(req.files?.intermediatePages,   "page",     "INTERMEDIATE");
+    await processFiles(req.files?.documents,           "document", "DOC");
 
-    if (allAttachments.length > 0) {
-      await db.insert(attachments).values(allAttachments);
+    console.log("📦 Total attachments prepared:", allAttachments.length);
+
+    if (allAttachments.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No files were uploaded"
+      });
     }
 
-    res.json({
+    await db.insert(attachments).values(allAttachments);
+    console.log("✅ Attachments inserted in DB");
+
+    return res.status(200).json({
       success: true,
-      message: "Attachments uploaded successfully"
+      message: "Attachments uploaded successfully",
+      count: allAttachments.length
     });
 
   } catch (err) {
-
     console.error("🔥 ATTACHMENT UPLOAD ERROR:", err);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Upload failed",
       error: err.message
     });
-
   }
 };
