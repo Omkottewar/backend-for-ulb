@@ -23,6 +23,7 @@ const ALLOWED_MIME_TYPES = [
   "image/jpeg",
   "image/png",
   "text/plain",
+  "text/csv", // Allow CSV as well since it's a common text-based spreadsheet format
 ];
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB per file

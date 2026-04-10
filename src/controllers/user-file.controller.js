@@ -8,7 +8,7 @@ const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 100;
 
 /**
- * GET /api/user-files?userId=...&page=1&limit=10
+ * GET /api/user-files?userId=...&page=1&limit=50
  *
  * Returns paginated files belonging to ULBs where the user is
  * currently working.

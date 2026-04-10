@@ -26,9 +26,12 @@ export const getFileVersionHistory = async (fileId) => {
     .limit(1);
 
   if (fileResult.length === 0) {
-    const err = new Error("File not found");
-    err.statusCode = 404;
-    throw err;
+ return {
+      fileId,
+      totalVersions: 0,
+      versions: [],
+      message: "This file has no version history yet.",
+    };
   }
 
   // ── Step 2: Single JOIN query — history + changes + user in one shot ──────
