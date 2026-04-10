@@ -472,7 +472,9 @@ export const uploadChecklistAttachments = async (req, res) => {
     console.log("📥 Upload checklist attachments");
 
     const { fileId, checklistId } = req.params;
-
+    console.log("UPLOAD PARAMS");
+    console.log("fileId:", fileId);
+    console.log("checklistId:", checklistId);
     if (!checklistId) {
       return res.status(400).json({
         success: false,
