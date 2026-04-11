@@ -88,6 +88,7 @@ export const getFileById = async (fileId) => {
       ulbName: ulbs.name,
 
       // ---- supplier fields ----
+      supplierId: suppliers.id,
       supplierName: suppliers.supplierName,
       pan: suppliers.pan,
       gst: suppliers.gstNo,
@@ -139,6 +140,7 @@ export const getFileById = async (fileId) => {
       ulbName: row.ulbName
     },
     supplier: {
+      supplierId: row.supplierId,
       supplierName: row.supplierName,
       pan: row.pan,
       gst: row.gst,
