@@ -216,13 +216,12 @@ export const getChecklistDetails = async (req, res) => {
 
     const templateJson = JSON.parse(JSON.stringify(template.templateJson));
 
-    // 3. Fetch responses joined with question_key
-    //    responseMap keyed by questionKey (e.g. "gem_availability_status")
+    // 3. Fetch ALL saved responses for this checklist joined with question_key
     const rawResponses = await db
       .select({
-        questionKey: checklistTemplateQuestions.questionKey,
+        questionKey:   checklistTemplateQuestions.questionKey,
         responseValue: checklistResponses.responseValue,
-        remark: checklistResponses.remark,
+        remark:        checklistResponses.remark,
       })
       .from(checklistResponses)
       .innerJoin(
@@ -231,6 +230,7 @@ export const getChecklistDetails = async (req, res) => {
       )
       .where(eq(checklistResponses.checklistId, checklistId));
 
+    // Build a flat map: questionKey → { value, remark }
     const responseMap = {};
     rawResponses.forEach(r => {
       responseMap[r.questionKey] = {
@@ -239,70 +239,60 @@ export const getChecklistDetails = async (req, res) => {
       };
     });
 
-    // 4. Inject responses into all section types
+    // 4. Inject saved values into the template JSON
     templateJson.sections?.forEach(section => {
 
-      // Regular fields
+      // ── Regular fields ───────────────────────────────────────────
       section.fields?.forEach(field => {
         const saved = responseMap[field.fieldId];
-        field.value = saved?.value ?? null;
+        field.value  = saved?.value  ?? null;
         field.remark = saved?.remark ?? "";
       });
 
-      // Conditional group fields
+      // ── Conditional group fields ─────────────────────────────────
       section.conditionalGroups?.forEach(group => {
         group.fields?.forEach(field => {
           const saved = responseMap[field.fieldId];
-          field.value = saved?.value ?? null;
+          field.value  = saved?.value  ?? null;
           field.remark = saved?.remark ?? "";
         });
       });
 
-      // Checklist table items
+      // ── Computed display fields ──────────────────────────────────
+      section.computedDisplayFields?.forEach(field => {
+        const saved = responseMap[field.fieldId];
+        field.value  = saved?.value  ?? null;
+        field.remark = saved?.remark ?? "";
+      });
+
+      // ── Checklist table items (+ nested subItems) ────────────────
       if (section.type === "checklist_table") {
-        section.items?.forEach(item => {
+        const injectItem = (item) => {
+          if (item.isGroupHeader) {
+            (item.subItems || []).forEach(injectItem);
+            return;
+          }
           if (item.responseField?.fieldId) {
-            const saved = responseMap[item.responseField.fieldId];
-            item.responseField.value = saved?.value ?? null;
+            item.responseField.value = responseMap[item.responseField.fieldId]?.value ?? null;
           }
           if (item.remarkField?.fieldId) {
-            const saved = responseMap[item.remarkField.fieldId];
-            item.remarkField.value = saved?.value ?? null;
+            item.remarkField.value = responseMap[item.remarkField.fieldId]?.value ?? null;
           }
-        });
+        };
+        section.items?.forEach(injectItem);
       }
-      // ── Dynamic table — parse JSON blob back into savedRows ───────────
-      if (section.type === "table") {
-        const key = `__table_${section.sectionId}`;
-        const saved = responseMap[key];
-        if (saved?.value) {
-          try {
-            section.savedRows = JSON.parse(saved.value);
-            console.log(`✅ Loaded ${section.savedRows.length} rows for ${section.sectionId}`);
-          } catch {
-            console.warn(`⚠️ Could not parse table data for ${section.sectionId}`);
-            section.savedRows = [];
-          }
-        } else {
-          section.savedRows = [];
-        }
-      }
-      // Document checklist
-      // Document checklist — already correct in your backend, just verify it's there
+
+      // ── Document checklist ───────────────────────────────────────
       if (section.type === "document_checklist") {
         section.items?.forEach(item => {
           if (item.checkField?.fieldId) {
-            const saved = responseMap[item.checkField.fieldId];
-            item.checkField.value = saved?.value ?? null;
+            item.checkField.value = responseMap[item.checkField.fieldId]?.value ?? null;
           }
         });
       }
 
-      // Line items table: keys are stored as `${rowId}_amount` and `${rowId}_remark`
-      // Line items table: keys stored as `rowId_columnId` (single underscore)
-      // FIX: was hardcoded to _amount and _remark only — now uses columnId to
-      // match the frontend's `${row.rowId}_${col.columnId}` convention.
-      // ── Line items table — inject savedValues per column ─────────────
+      // ── Line items table ─────────────────────────────────────────
+      // Keys stored as `${rowId}_${columnId}` e.g. "bd_gross_bd_amount"
       if (section.type === "line_items_table") {
         section.rows?.forEach(row => {
           row.savedValues = {};
@@ -311,42 +301,54 @@ export const getChecklistDetails = async (req, res) => {
             const key = `${row.rowId}_${col.columnId}`;
             row.savedValues[col.columnId] = responseMap[key]?.value ?? null;
           });
-          // legacy compat
-          row.savedAmount = row.savedValues?.bd_amount ?? null;
-          row.savedRemark = row.savedValues?.bd_remark ?? null;
         });
       }
 
-      // ── Dynamic table — parse JSON blob into savedRows ────────────────
+      // ── Dynamic table ────────────────────────────────────────────
+      // FIX: per-row keys `__table_${sectionId}_0`, `_1`, `_2` ...
+      // Old code looked for bare `__table_${sectionId}` (single JSON blob)
+      // which no longer exists. Now reconstruct savedRows from per-row keys.
       if (section.type === "table") {
-        const key = `__table_${section.sectionId}`;
-        const saved = responseMap[key];
-        if (saved?.value) {
-          try {
-            section.savedRows = JSON.parse(saved.value);
-          } catch {
-            console.warn(`⚠️ Could not parse table rows for ${section.sectionId}`);
-            section.savedRows = [];
-          }
-        } else {
-          section.savedRows = [];
-        }
-      }
+        const sectionId  = section.sectionId;
+        const rowPattern = new RegExp(`^__table_${sectionId}_(\\d+)$`);
 
-      // Dynamic table columns — row data stored separately, skip injection here
+        const rowEntries = Object.entries(responseMap)
+          .filter(([key]) => rowPattern.test(key))
+          .sort(([a], [b]) => {
+            const idxA = parseInt(a.match(/(\d+)$/)[1]);
+            const idxB = parseInt(b.match(/(\d+)$/)[1]);
+            return idxA - idxB;
+          });
+
+        section.savedRows = rowEntries.map(([, saved]) => {
+          if (!saved?.value) return {};
+          try {
+            return typeof saved.value === "string"
+              ? JSON.parse(saved.value)
+              : saved.value;
+          } catch {
+            console.warn(`⚠️ Could not parse row JSON for table ${sectionId}`);
+            return {};
+          }
+        });
+
+        console.log(`✅ Table [${sectionId}]: loaded ${section.savedRows.length} row(s)`);
+      }
     });
 
-    // 5. Also send responses as a flat array so the frontend can build its own map
-    res.json({
-      success: true,
+    // 5. Return checklist, enriched form, and flat responses array
+    //    The frontend uses rawResponses to build its own responses map
+    //    (including __table per-row keys, line item keys, etc.)
+    return res.json({
+      success:   true,
       checklist,
-      form: templateJson,
-      responses: rawResponses,  // [ { questionKey, responseValue, remark } ]
+      form:      templateJson,
+      responses: rawResponses, // [ { questionKey, responseValue, remark } ]
     });
 
   } catch (err) {
     console.error("GET CHECKLIST DETAILS ERROR:", err);
-    res.status(500).json({ success: false, message: "Failed to load checklist" });
+    return res.status(500).json({ success: false, message: "Failed to load checklist" });
   }
 };
 export const saveChecklistResponses = async (req, res) => {
@@ -386,43 +388,34 @@ export const saveChecklistResponses = async (req, res) => {
       );
     }
 
-    const values = responses
-      .filter(r => questionMap[r.questionId])
-      .map(r => ({
-        checklistId,
-        questionId: questionMap[r.questionId],
-        // FIX: allow null values so cleared fields are actually persisted
-        responseValue: r.responseValue ?? null,
-        remark: r.remark ?? null,
-        respondedAt: new Date(),
-        respondedBy: userId,
-      }));
+  // AFTER
+const values = responses
+  .filter(r => questionMap[r.questionId])
+  .map(r => ({
+    checklistId,
+    questionId:   questionMap[r.questionId],
+    questionKey:  r.questionId,             // r.questionId IS the fieldId string e.g. "gem_availability_status"
+    responseValue: r.responseValue ?? null,
+    remark:        r.remark ?? null,
+    respondedAt:   new Date(),
+    respondedBy:   userId,
+  }));
 
-    if (values.length === 0) {
-      console.warn("⚠️  No valid responses to save after filtering.");
-      return res.json({
-        success: true,
-        message: "No valid responses to save",
-        dropped: dropped.length,
-      });
-    }
-
-    await db
-      .insert(checklistResponses)
-      .values(values)
-      .onConflictDoUpdate({
-        target: [
-          checklistResponses.checklistId,
-          checklistResponses.questionId,
-        ],
-        set: {
-          // FIX: allow null to overwrite — clears previously saved values
-          responseValue: sql`excluded.response_value`,
-          remark: sql`excluded.remark`,
-          respondedAt: new Date(),
-          respondedBy: userId,
-        },
-      });
+await db
+  .insert(checklistResponses)
+  .values(values)
+  .onConflictDoUpdate({
+    target: [
+      checklistResponses.checklistId,
+      checklistResponses.questionKey,       // ← matches checklist_responses_checklist_qkey_unique
+    ],
+    set: {
+      responseValue: sql`excluded.response_value`,
+      remark:        sql`excluded.remark`,
+      respondedAt:   new Date(),
+      respondedBy:   userId,
+    },
+  });
 
     console.log(`✅ Saved ${values.length} responses for checklist ${checklistId}`);
 

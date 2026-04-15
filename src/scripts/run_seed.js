@@ -34,6 +34,11 @@ const TEMPLATE_MAP = [
     templateId: "2b165788-0ae1-4f37-89de-8ac5edf11f12",
     jsonPath:   "src/data/consultancy_checklist.json",
   },
+    {
+    formId:     "contractor_checklist_v1",
+    templateId: "54245f02-596f-4dad-acb5-6b5265a8857d",
+    jsonPath:   "src/data/contractor_checklist.json",
+  },
 ];
 // ────────────────────────────────────────────────────────────────────────────
 

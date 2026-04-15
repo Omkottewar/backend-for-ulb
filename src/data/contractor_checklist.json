@@ -1,0 +1,912 @@
+{
+  "formId": "contractor_checklist_v1",
+  "formTitle": "Checklist of Contractor",
+  "version": "1.0",
+  "createdAt": null,
+  "updatedAt": null,
+  "sections": [
+    {
+      "sectionId": "header",
+      "title": "General Information",
+      "order": 1,
+      "fields": [
+        {
+          "fieldId": "checker_name",
+          "label": "Name of Checker",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter checker's name"
+        },
+        {
+          "fieldId": "checklist_no",
+          "label": "Checklist No.",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter checklist number"
+        },
+        {
+          "fieldId": "checklist_date",
+          "label": "Date",
+          "type": "date",
+          "required": true
+        }
+      ]
+    },
+    {
+      "sectionId": "technical_approval",
+      "title": "Technical Approval",
+      "order": 2,
+      "fields": [
+        {
+          "fieldId": "technical_approval_status",
+          "label": "Technical Approval",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "technical_approval_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "technical_approval_number", "label": "Approval Number", "type": "text", "required": true, "placeholder": "Enter approval number" },
+            { "fieldId": "technical_approval_date", "label": "Date", "type": "date", "required": true },
+            { "fieldId": "technical_approval_value", "label": "Value", "type": "number", "required": true, "placeholder": "Enter value", "format": "currency" },
+            { "fieldId": "technical_approval_approver_name", "label": "Name of Approver", "type": "text", "required": true, "placeholder": "Enter approver's name" },
+            { "fieldId": "technical_approval_authority", "label": "Authority of Approver", "type": "text", "required": true, "placeholder": "Enter authority" }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "technical_approval_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "technical_approval_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Technical approval not available", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "tender_inviting_approval",
+      "title": "Tender Inviting Approval",
+      "order": 3,
+      "fields": [
+        {
+          "fieldId": "tender_inviting_status",
+          "label": "Tender Inviting Approval",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "tender_inviting_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "tender_inviting_number", "label": "Approval Number", "type": "text", "required": true, "placeholder": "Enter approval number" },
+            { "fieldId": "tender_inviting_date", "label": "Date", "type": "date", "required": true },
+            { "fieldId": "tender_inviting_value", "label": "Value", "type": "number", "required": true, "placeholder": "Enter value", "format": "currency" },
+            { "fieldId": "tender_inviting_approver_name", "label": "Name of Approver", "type": "text", "required": true, "placeholder": "Enter approver's name" },
+            { "fieldId": "tender_inviting_authority", "label": "Authority of Approver", "type": "text", "required": true, "placeholder": "Enter authority" }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "tender_inviting_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "tender_inviting_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Tender Inviting not available", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "document_verification_nit",
+      "title": "Document Verification as per NIT",
+      "order": 4,
+      "fields": [
+        {
+          "fieldId": "nit_verification_remark",
+          "label": "Remark",
+          "type": "textarea",
+          "required": true,
+          "placeholder": "Enter verification remark manually"
+        }
+      ]
+    },
+    {
+      "sectionId": "tender_published",
+      "title": "Tender Published",
+      "order": 5,
+      "fields": [
+        {
+          "fieldId": "tender_published_status",
+          "label": "Tender Published",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "tender_published_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "tender_publish_date", "label": "Date of Publication", "type": "date", "required": true },
+            { "fieldId": "tender_newspaper_names", "label": "Name of Newspaper(s)", "type": "text", "required": true, "placeholder": "Enter newspaper name(s)" }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "tender_published_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "tender_published_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Publishing details not available", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "tender_committee_approval",
+      "title": "Tender Committee Approval",
+      "order": 6,
+      "fields": [
+        {
+          "fieldId": "tender_committee_status",
+          "label": "Tender Committee Approval",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "tender_committee_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "tender_committee_number", "label": "Approval Number", "type": "text", "required": true, "placeholder": "Enter approval number" },
+            { "fieldId": "tender_committee_date", "label": "Date", "type": "date", "required": true },
+            { "fieldId": "tender_committee_value", "label": "Value", "type": "number", "required": true, "placeholder": "Enter value", "format": "currency" },
+            { "fieldId": "tender_committee_approver_name", "label": "Name of Approver", "type": "text", "required": true, "placeholder": "Enter approver's name" },
+            { "fieldId": "tender_committee_authority", "label": "Authority of Approver", "type": "text", "required": true, "placeholder": "Enter authority" }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "tender_committee_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "tender_committee_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Tender Committee approval not available", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "financial_approval",
+      "title": "Financial Approval",
+      "order": 7,
+      "fields": [
+        {
+          "fieldId": "financial_approval_status",
+          "label": "Financial Approval",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "financial_approval_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "financial_approval_number", "label": "Approval Number", "type": "text", "required": true, "placeholder": "Enter approval number" },
+            { "fieldId": "financial_approval_date", "label": "Date", "type": "date", "required": true },
+            { "fieldId": "financial_approval_value", "label": "Value", "type": "number", "required": true, "placeholder": "Enter value", "format": "currency" },
+            { "fieldId": "financial_approval_approver_name", "label": "Name of Approver", "type": "text", "required": true, "placeholder": "Enter approver's name" },
+            { "fieldId": "financial_approval_authority", "label": "Authority of Approver", "type": "text", "required": true, "placeholder": "Enter authority" }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "financial_approval_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "financial_approval_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Financial approval not available", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "sor_calculation",
+      "title": "SOR (Schedule of Rates)",
+      "order": 8,
+      "description": "Computed bid value based on Tender Approval Value and SOR percentage. At Par = Tender Value; Above = Tender Value + (Tender Value × SOR%); Below = Tender Value − (Tender Value × SOR%).",
+      "fields": [
+        {
+          "fieldId": "sor_percentage",
+          "label": "SOR Percentage (%)",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter SOR percentage"
+        },
+        {
+          "fieldId": "sor_option",
+          "label": "SOR Option",
+          "type": "dropdown",
+          "required": true,
+          "options": [
+            { "label": "At Par", "value": "at_par" },
+            { "label": "Above", "value": "above" },
+            { "label": "Below", "value": "below" }
+          ]
+        },
+        {
+          "fieldId": "sor_computed_value",
+          "label": "Computed Bid Value",
+          "type": "number",
+          "readonly": true,
+          "format": "currency",
+          "computed": true,
+          "formula": {
+            "operation": "sor_calculation",
+            "description": "At Par: tender_committee_value; Above: tender_committee_value + (tender_committee_value × sor_percentage / 100); Below: tender_committee_value − (tender_committee_value × sor_percentage / 100)",
+            "baseValueField": "tender_committee_value",
+            "percentageField": "sor_percentage",
+            "optionField": "sor_option"
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "emd_tdr",
+      "title": "EMD / TDR",
+      "order": 9,
+      "fields": [
+        {
+          "fieldId": "emd_status",
+          "label": "EMD/TDR Available",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "emd_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "emd_instrument_number", "label": "Number of Instrument", "type": "text", "required": true, "placeholder": "Enter instrument number" },
+            { "fieldId": "emd_bank_name", "label": "Name of Bank", "type": "text", "required": true, "placeholder": "Enter bank name" },
+            { "fieldId": "emd_instrument_date", "label": "Date of Instrument (a)", "type": "date", "required": true, "refKey": "a" },
+            { "fieldId": "emd_expiry_date", "label": "Date of Expiry (b)", "type": "date", "required": true, "refKey": "b" },
+            {
+              "fieldId": "emd_validity_days",
+              "label": "Validity (days)",
+              "type": "number",
+              "readonly": true,
+              "computed": true,
+              "formula": {
+                "operation": "date_diff_days",
+                "operands": [
+                  { "fieldId": "emd_expiry_date" },
+                  { "fieldId": "emd_instrument_date" }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "additional_performance_guarantee",
+      "title": "Additional Performance Guarantee",
+      "order": 10,
+      "fields": [
+        {
+          "fieldId": "apg_status",
+          "label": "Additional Performance Guarantee",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Applicable", "value": "applicable" },
+            { "label": "Not Applicable", "value": "not_applicable" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "apg_status", "equals": "applicable" },
+          "fields": [
+            { "fieldId": "apg_instrument_number", "label": "Number of Instrument", "type": "text", "required": true, "placeholder": "Enter instrument number" },
+            { "fieldId": "apg_bank_name", "label": "Name of Bank", "type": "text", "required": true, "placeholder": "Enter bank name" },
+            { "fieldId": "apg_instrument_date", "label": "Date of Instrument (a)", "type": "date", "required": true, "refKey": "a" },
+            { "fieldId": "apg_expiry_date", "label": "Date of Expiry (b)", "type": "date", "required": true, "refKey": "b" },
+            {
+              "fieldId": "apg_validity_days",
+              "label": "Validity (days)",
+              "type": "number",
+              "readonly": true,
+              "computed": true,
+              "formula": {
+                "operation": "date_diff_days",
+                "operands": [
+                  { "fieldId": "apg_expiry_date" },
+                  { "fieldId": "apg_instrument_date" }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "work_dates",
+      "title": "Work Dates & Completion",
+      "order": 11,
+      "fields": [
+        {
+          "fieldId": "date_of_commencement",
+          "label": "Date of Commencement",
+          "type": "date",
+          "required": true
+        },
+        {
+          "fieldId": "actual_completion_date",
+          "label": "Actual Date of Work Completion",
+          "type": "date",
+          "required": true
+        },
+        {
+          "fieldId": "date_extended",
+          "label": "Whether Date Extended?",
+          "type": "checkbox",
+          "required": false
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "date_extended", "equals": true },
+          "fields": [
+            { "fieldId": "extended_date", "label": "Extended Date", "type": "date", "required": true },
+            { "fieldId": "extending_officer_name_authority", "label": "Name and Authority of Extending Officer", "type": "text", "required": true, "placeholder": "Enter name and authority" },
+            { "fieldId": "extension_letter_number", "label": "Extension Letter Number", "type": "text", "required": true, "placeholder": "Enter letter number" }
+          ]
+        }
+      ],
+      "computedDisplayFields": [
+        {
+          "fieldId": "delay_days",
+          "label": "Delay (days)",
+          "description": "Actual Date of Work Completion − Estimated/Extended Date of Work Completion",
+          "type": "number",
+          "readonly": true,
+          "computed": true,
+          "formula": {
+            "operation": "date_diff_days",
+            "description": "If extended, uses extended_date; otherwise uses estimated completion date from the agreement",
+            "operands": [
+              { "fieldId": "actual_completion_date" },
+              { "fieldId": "extended_date", "fallback": "actual_completion_date" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "penalty_check",
+      "title": "Penalty Imposed",
+      "order": 12,
+      "fields": [
+        {
+          "fieldId": "penalty_imposed_status",
+          "label": "Whether Penalty Imposed Properly",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "penalty_imposed_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "penalty_ok_note", "label": "Status", "type": "readonly", "defaultValue": "Penalty imposed properly — OK", "flagType": "success" }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "penalty_imposed_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "penalty_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Penalty to be imposed", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "measurement_book",
+      "title": "Measurement Book",
+      "order": 13,
+      "fields": [
+        {
+          "fieldId": "mb_number",
+          "label": "Measurement Book No.",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter MB number"
+        },
+        {
+          "fieldId": "mb_page_no",
+          "label": "Page No.",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter page number"
+        }
+      ]
+    },
+    {
+      "sectionId": "fund_availability",
+      "title": "Availability of Fund as per Letter",
+      "order": 14,
+      "fields": [
+        {
+          "fieldId": "amount_sanctioned",
+          "label": "Amount Sanctioned (a)",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter sanctioned amount",
+          "format": "currency",
+          "refKey": "a"
+        },
+        {
+          "fieldId": "work_done_till_date",
+          "label": "Amount of Work Done Till Date (b)",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter work done amount",
+          "format": "currency",
+          "refKey": "b"
+        },
+        {
+          "fieldId": "remaining_balance",
+          "label": "Remaining Balance (a − b)",
+          "type": "number",
+          "readonly": true,
+          "format": "currency",
+          "computed": true,
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              { "fieldId": "amount_sanctioned" },
+              { "fieldId": "work_done_till_date" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "bill_info",
+      "title": "Bill Information",
+      "order": 15,
+      "fields": [
+        {
+          "fieldId": "bill_type",
+          "label": "Bill Type",
+          "type": "dropdown",
+          "required": true,
+          "options": [
+            { "label": "RA Bill", "value": "ra_bill" },
+            { "label": "Final Bill", "value": "final_bill" }
+          ]
+        },
+        {
+          "fieldId": "bill_number",
+          "label": "Bill Number",
+          "type": "text",
+          "required": true,
+          "placeholder": "Enter bill number"
+        },
+        {
+          "fieldId": "bill_amount",
+          "label": "Bill Amount",
+          "type": "number",
+          "required": true,
+          "placeholder": "Enter bill amount",
+          "format": "currency"
+        }
+      ]
+    },
+    {
+      "sectionId": "work_completion_certificate",
+      "title": "Work Completion Certificate",
+      "order": 16,
+      "fields": [
+        {
+          "fieldId": "wcc_status",
+          "label": "Work Completion Certificate Available",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "wcc_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "wcc_completion_date", "label": "Date of Completion", "type": "date", "required": true },
+            { "fieldId": "wcc_signing_authority", "label": "Signing Authority", "type": "text", "required": true, "placeholder": "Enter signing authority" }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "wcc_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "wcc_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Work Completion certificate not available", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "quality_test_report",
+      "title": "Quality Test Report",
+      "order": 17,
+      "fields": [
+        {
+          "fieldId": "qtr_status",
+          "label": "Quality Test Report Available",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "qtr_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "qtr_report_date", "label": "Date of Report", "type": "date", "required": true },
+            { "fieldId": "qtr_testing_date", "label": "Date of Testing", "type": "date", "required": true }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "qtr_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "qtr_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Test report not available", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "mining_clearance",
+      "title": "Mining Clearance Certificate",
+      "order": 18,
+      "fields": [
+        {
+          "fieldId": "mining_status",
+          "label": "Mining Clearance Certificate Available",
+          "type": "radio",
+          "required": true,
+          "options": [
+            { "label": "Yes", "value": "yes" },
+            { "label": "No", "value": "no" }
+          ]
+        }
+      ],
+      "conditionalGroups": [
+        {
+          "showWhen": { "fieldId": "mining_status", "equals": "yes" },
+          "fields": [
+            { "fieldId": "mining_certificate_date", "label": "Date of Certificate", "type": "date", "required": true },
+            { "fieldId": "mining_royalty_amount", "label": "Amount of Royalty (in Clearance Certificate)", "type": "number", "required": true, "placeholder": "Enter royalty amount in certificate", "format": "currency" },
+            { "fieldId": "mining_royalty_in_bill", "label": "Royalty in Bill", "type": "number", "required": true, "placeholder": "Enter royalty amount in bill", "format": "currency" },
+            {
+              "fieldId": "tcs_amount",
+              "label": "TCS (2% of excess royalty)",
+              "type": "number",
+              "readonly": true,
+              "format": "currency",
+              "computed": true,
+              "formula": {
+                "operation": "custom",
+                "description": "TCS = 2% × (Royalty in Bill − Royalty in Clearance Certificate). Only positive values; if bill royalty ≤ certificate royalty, TCS = 0.",
+                "expression": "0.02 * max(0, mining_royalty_in_bill - mining_royalty_amount)"
+              }
+            }
+          ]
+        },
+        {
+          "showWhen": { "fieldId": "mining_status", "equals": "no" },
+          "fields": [
+            { "fieldId": "mining_red_flag", "label": "Red Flag Query", "type": "readonly", "defaultValue": "Test report not available", "flagType": "red_flag" }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionId": "payment_summary_table",
+      "title": "Payment Summary",
+      "order": 19,
+      "type": "table",
+      "minRows": 1,
+      "maxRows": 20,
+      "allowAddRow": true,
+      "columns": [
+        { "columnId": "ps_bill_number", "header": "Bill Number", "type": "text", "width": "12%" },
+        { "columnId": "ps_note_sheet_no", "header": "Note Sheet No.", "type": "text", "width": "13%" },
+        { "columnId": "ps_bill_amount", "header": "Bill Amount", "type": "number", "format": "currency", "width": "14%" },
+        { "columnId": "ps_gross_payment", "header": "Gross Payment", "type": "number", "format": "currency", "width": "14%" },
+        { "columnId": "ps_deduction_head", "header": "Deduction Head", "type": "text", "width": "14%" },
+        { "columnId": "ps_deduction_amount", "header": "Deduction Amount", "type": "number", "format": "currency", "width": "14%" },
+        {
+          "columnId": "ps_net_payment",
+          "header": "Net Payment",
+          "type": "number",
+          "format": "currency",
+          "width": "14%",
+          "computed": true,
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              { "columnId": "ps_gross_payment" },
+              { "columnId": "ps_deduction_amount" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sectionId": "verification_checklist",
+      "title": "Verification Checklist",
+      "order": 20,
+      "type": "checklist_table",
+      "items": [
+        {
+          "itemId": "vc_1_1",
+          "srNo": "1.1",
+          "particular": "Whether measurement book signed by the Sub-Engineer of ULB",
+          "responseField": { "fieldId": "vc_1_1_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_1_1_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_1_2",
+          "srNo": "1.2",
+          "particular": "Whether measurement book signed by the Assistant-Engineer of ULB",
+          "responseField": { "fieldId": "vc_1_2_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_1_2_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_1_3",
+          "srNo": "1.3",
+          "particular": "Whether measurement book signed by the Executive-Engineer of ULB",
+          "responseField": { "fieldId": "vc_1_3_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_1_3_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_2",
+          "srNo": "2",
+          "particular": "Please check detailed calculation of MB with SOR",
+          "responseField": { "fieldId": "vc_2_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_2_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_3",
+          "srNo": "3",
+          "particular": "If mistakes found",
+          "isGroupHeader": true,
+          "subItems": [
+            {
+              "itemId": "vc_3_1",
+              "srNo": "3.1",
+              "particular": "Whether revised claim is less than actual amount, then proceed with revised value",
+              "responseField": { "fieldId": "vc_3_1_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }, { "label": "N/A", "value": "na" }] },
+              "remarkField": { "fieldId": "vc_3_1_remark", "type": "text", "placeholder": "Remark if N" }
+            },
+            {
+              "itemId": "vc_3_2",
+              "srNo": "3.2",
+              "particular": "If revised claim is more than actual, return it to concerned engineer",
+              "responseField": { "fieldId": "vc_3_2_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }, { "label": "N/A", "value": "na" }] },
+              "remarkField": { "fieldId": "vc_3_2_remark", "type": "text", "placeholder": "Remark if N" }
+            }
+          ]
+        },
+        {
+          "itemId": "vc_4",
+          "srNo": "4",
+          "particular": "Prepare Calculation in Prescribed excel sheet",
+          "responseField": { "fieldId": "vc_4_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_4_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_5",
+          "srNo": "5",
+          "particular": "Whether Above/Below quoted in bid is added and deducted from bill amount",
+          "responseField": { "fieldId": "vc_5_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_5_remark", "type": "text", "placeholder": "Remark if N" },
+          "note": "Refer Note Sheet"
+        },
+        {
+          "itemId": "vc_6",
+          "srNo": "6",
+          "particular": "Compare gross amount as approved in Voucher from excel sheet",
+          "responseField": { "fieldId": "vc_6_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_6_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_7",
+          "srNo": "7",
+          "particular": "Gross amount approved by Sub Engineer",
+          "responseField": { "fieldId": "vc_7_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_7_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_8",
+          "srNo": "8",
+          "particular": "Same amount approved by Assistant Engineer",
+          "responseField": { "fieldId": "vc_8_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_8_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_9",
+          "srNo": "9",
+          "particular": "Same amount approved by Executive Engineer",
+          "responseField": { "fieldId": "vc_9_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_9_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_10",
+          "srNo": "10",
+          "particular": "Same Amount forwarded by Commissioner",
+          "responseField": { "fieldId": "vc_10_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_10_remark", "type": "text", "placeholder": "Remark if N" }
+        },
+        {
+          "itemId": "vc_11",
+          "srNo": "11",
+          "particular": "Received by DC(F) and forwarded to Accounts Officer",
+          "responseField": { "fieldId": "vc_11_response", "type": "dropdown", "options": [{ "label": "Y", "value": "yes" }, { "label": "N", "value": "no" }] },
+          "remarkField": { "fieldId": "vc_11_remark", "type": "text", "placeholder": "Remark if N" }
+        }
+      ]
+    },
+    {
+      "sectionId": "bill_details_table",
+      "title": "Deduction / Bill Details",
+      "order": 21,
+      "type": "line_items_table",
+      "columns": [
+        { "columnId": "bd_head", "header": "Head", "type": "readonly" },
+        { "columnId": "bd_rate", "header": "Rate", "type": "number", "format": "currency" },
+        { "columnId": "bd_amount", "header": "Amount", "type": "number", "format": "currency" },
+        { "columnId": "bd_remark", "header": "Remark", "type": "text" }
+      ],
+      "rows": [
+        { "rowId": "bd_gross", "head": "Gross Amount as approved by Accounts Officer", "isEditable": true },
+        { "rowId": "bd_security_deposit", "head": "Security Deposit", "isEditable": true },
+        { "rowId": "bd_performance_deposit", "head": "Performance Deposit", "isEditable": true },
+        { "rowId": "bd_royalty_mining_cess", "head": "Royalty / Mining Cess", "isEditable": true },
+        { "rowId": "bd_income_tax", "head": "Income Tax", "isEditable": true },
+        { "rowId": "bd_gst", "head": "GST", "isEditable": true },
+        { "rowId": "bd_labor_welfare_fund", "head": "Labor Welfare Fund", "isEditable": true },
+        { "rowId": "bd_penalty_ld", "head": "Penalty / LD", "isEditable": true },
+        { "rowId": "bd_recovery_advance", "head": "Recovery of Advance", "isEditable": true },
+        { "rowId": "bd_recovery_material", "head": "Recovery of Material", "isEditable": true },
+        { "rowId": "bd_under_over_payment", "head": "Under/Over payment in last bill", "isEditable": true },
+        { "rowId": "bd_difference_agreement", "head": "Difference in Amount as per agreement and total invoice till date", "isEditable": true }
+      ],
+      "summary": {
+        "rowId": "bd_net_amount",
+        "head": "Net Amount eligible for payment",
+        "type": "computed",
+        "formula": {
+          "operation": "custom",
+          "description": "Gross − (Security Deposit + Performance Deposit + Royalty + Income Tax + GST + Labor Welfare Fund + Penalty + Recovery of Advance + Recovery of Material) +/− Under/Over payment +/− Difference",
+          "base": "bd_gross",
+          "deductions": [
+            "bd_security_deposit",
+            "bd_performance_deposit",
+            "bd_royalty_mining_cess",
+            "bd_income_tax",
+            "bd_gst",
+            "bd_labor_welfare_fund",
+            "bd_penalty_ld",
+            "bd_recovery_advance",
+            "bd_recovery_material"
+          ],
+          "adjustments": [
+            "bd_under_over_payment",
+            "bd_difference_agreement"
+          ]
+        }
+      }
+    },
+    {
+      "sectionId": "documents_from_contractor",
+      "title": "Documents to be Collected from Contractor",
+      "order": 22,
+      "type": "document_checklist",
+      "items": [
+        {
+          "itemId": "dfc_1",
+          "srNo": "1",
+          "document": "Quality Test Report as per Agreement",
+          "checkField": { "fieldId": "dfc_1_checked", "type": "checkbox", "label": "Collected" }
+        },
+        {
+          "itemId": "dfc_2",
+          "srNo": "2",
+          "document": "Work Completion Certificate",
+          "checkField": { "fieldId": "dfc_2_checked", "type": "checkbox", "label": "Collected" }
+        },
+        {
+          "itemId": "dfc_3",
+          "srNo": "3",
+          "document": "Clearance Certificate from Mining Department",
+          "checkField": { "fieldId": "dfc_3_checked", "type": "checkbox", "label": "Collected" }
+        },
+        {
+          "itemId": "dfc_4",
+          "srNo": "4",
+          "document": "Tax Invoice from Contractor",
+          "checkField": { "fieldId": "dfc_4_checked", "type": "checkbox", "label": "Collected" }
+        },
+        {
+          "itemId": "dfc_5",
+          "srNo": "5",
+          "document": "Invoice of Bitumen of BPCL/HPCL with Consumption details in Bill for BT work",
+          "checkField": { "fieldId": "dfc_5_checked", "type": "checkbox", "label": "Collected" }
+        },
+        {
+          "itemId": "dfc_6",
+          "srNo": "6",
+          "document": "Geotagged and Signed Photograph of Work — Before Started, During Work, Complete Photograph",
+          "checkField": { "fieldId": "dfc_6_checked", "type": "checkbox", "label": "Collected" }
+        },
+        {
+          "itemId": "dfc_7",
+          "srNo": "7",
+          "document": "Revised Estimate (if not produced then payment as per Estimate)",
+          "conditional": true,
+          "conditionNote": "if not produced then payment as per Estimate",
+          "checkField": { "fieldId": "dfc_7_checked", "type": "checkbox", "label": "Collected" }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "formCategory": "audit_checklist",
+    "department": "contractor",
+    "redFlagFields": [
+      "technical_approval_red_flag",
+      "tender_inviting_red_flag",
+      "tender_published_red_flag",
+      "tender_committee_red_flag",
+      "financial_approval_red_flag",
+      "penalty_red_flag",
+      "wcc_red_flag",
+      "qtr_red_flag",
+      "mining_red_flag"
+    ],
+    "computedFields": [
+      "sor_computed_value",
+      "emd_validity_days",
+      "apg_validity_days",
+      "delay_days",
+      "remaining_balance",
+      "tcs_amount",
+      "ps_net_payment",
+      "bd_net_amount"
+    ],
+    "successFields": [
+      "penalty_ok_note"
+    ]
+  }
+}

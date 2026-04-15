@@ -24,7 +24,9 @@ export const checklistResponses = pgTable(
       .notNull()
       .references(() => checklistTemplateQuestions.id),
 
-    responseValue: varchar("response_value", { length: 50 }),
+    questionKey: text("question_key").notNull(),              // ← added
+
+    responseValue: varchar("response_value", { length: 5000 }), // ← also bump this from 50 → 5000 to match your migration
 
     remark: text("remark"),
 
@@ -33,8 +35,8 @@ export const checklistResponses = pgTable(
     respondedBy: uuid("responded_by").references(() => users.id),
   },
   (table) => ({
-    checklistQuestionUnique: uniqueIndex(
-      "checklist_responses_checklist_question_unique"
-    ).on(table.checklistId, table.questionId),
+    checklistQkeyUnique: uniqueIndex(
+      "checklist_responses_checklist_qkey_unique"    // ← updated to match the index you created in Postgres
+    ).on(table.checklistId, table.questionKey),      // ← was questionId, now questionKey
   })
 );

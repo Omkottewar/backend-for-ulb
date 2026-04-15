@@ -123,9 +123,19 @@
           "type": "radio",
           "required": true,
           "options": [
-            { "label": "Yes", "value": "yes" },
-            { "label": "No", "value": "no" }
-          ]
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            }
+          ],
+          "redFlagWhen": {
+            "equals": "yes",
+            "message": "Advance subsequently disallowed — requires investigation"
+          }
         },
         {
           "fieldId": "mode_of_payment",
@@ -133,10 +143,22 @@
           "type": "dropdown",
           "required": true,
           "options": [
-            { "label": "Cheque", "value": "cheque" },
-            { "label": "NEFT/RTGS", "value": "neft_rtgs" },
-            { "label": "Cash", "value": "cash" },
-            { "label": "Other", "value": "other" }
+            {
+              "label": "Cheque",
+              "value": "cheque"
+            },
+            {
+              "label": "NEFT/RTGS",
+              "value": "neft_rtgs"
+            },
+            {
+              "label": "Cash",
+              "value": "cash"
+            },
+            {
+              "label": "Other",
+              "value": "other"
+            }
           ]
         },
         {
@@ -207,8 +229,12 @@
           "formula": {
             "operation": "subtract",
             "operands": [
-              { "columnId": "oa_total_advance" },
-              { "columnId": "oa_repayment" }
+              {
+                "columnId": "oa_total_advance"
+              },
+              {
+                "columnId": "oa_repayment"
+              }
             ]
           }
         }
@@ -228,9 +254,18 @@
             "fieldId": "off_1_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -247,9 +282,18 @@
             "fieldId": "off_2_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -266,9 +310,18 @@
             "fieldId": "off_3_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -285,9 +338,18 @@
             "fieldId": "off_4_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -304,9 +366,18 @@
             "fieldId": "off_5_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -331,9 +402,18 @@
             "fieldId": "gpf_1_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -350,9 +430,18 @@
             "fieldId": "gpf_2_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -369,9 +458,18 @@
             "fieldId": "gpf_3_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -388,9 +486,18 @@
             "fieldId": "gpf_4_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -407,9 +514,18 @@
             "fieldId": "gpf_5_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -426,9 +542,18 @@
             "fieldId": "gpf_6_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -445,9 +570,18 @@
             "fieldId": "gpf_7_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -464,9 +598,18 @@
             "fieldId": "gpf_8_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -491,9 +634,18 @@
             "fieldId": "gf_1_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -510,9 +662,18 @@
             "fieldId": "gf_2_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -529,9 +690,18 @@
             "fieldId": "gf_3_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
@@ -548,9 +718,18 @@
             "fieldId": "gf_4_response",
             "type": "dropdown",
             "options": [
-              { "label": "Yes", "value": "yes" },
-              { "label": "No", "value": "no" },
-              { "label": "N/A", "value": "na" }
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              },
+              {
+                "label": "N/A",
+                "value": "na"
+              }
             ]
           },
           "remarkField": {
