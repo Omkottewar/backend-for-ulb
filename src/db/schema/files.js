@@ -17,6 +17,7 @@ import { suppliers } from "./suppliers.js";
 import { contractTypes } from "./contract_types.js";
 
 export const riskFlagEnum = pgEnum("risk_flag_enum", ["Low", "Medium", "High"]);
+export const fileStageEnum = pgEnum("file_stage_enum", ["Pre-Audit", "Post-Audit"]);
 
 export const fileStatusEnum = pgEnum("file_status_enum", [
   "Created",
@@ -54,6 +55,8 @@ export const files = pgTable(
 
     status: fileStatusEnum("status").notNull().default("Created"),
 
+    stage: fileStageEnum("stage").default(null),
+    
     finalized: boolean("finalized").notNull().default(false),
 
     finalizedAt: timestamp("finalized_at", { withTimezone: true }),

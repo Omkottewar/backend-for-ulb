@@ -67,7 +67,6 @@ const [newFile] = await trx
 
       const fileId = newFile.id;
 
-      const templateId = req.body.templateId ;
       if(!templateId) {
         console.error("❌ templateId is required to create checklist");
         throw new Error("templateId is required");
