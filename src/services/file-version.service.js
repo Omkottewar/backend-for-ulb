@@ -63,11 +63,13 @@ export const getFileVersionHistory = async (fileId) => {
     .orderBy(desc(fileVersionHistory.versionNumber));
 
   // ── Step 3: Guard — no version history found for this file ───────────────
-  if (rows.length === 0) {
-    const err = new Error("No version history found for this file");
-    err.statusCode = 404;
-    throw err;
-  }
+if (rows.length === 0) {
+  return {
+    fileId,
+    totalVersions: 0,
+    versions: [],
+  };
+}
 
   // ── Step 4: Single Map — group flat rows into nested version structure ────
   // versionId is the grouping key. Each version bucket is created once on
