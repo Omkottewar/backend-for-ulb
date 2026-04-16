@@ -8,17 +8,28 @@ const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 100;
 
 /**
- * GET /api/user-files?userId=...&page=1&limit=50
+ * Maps the client-facing auditType query-param values (lowercase kebab-case)
+ * to the database enum values (Title Case).
+ *
+ * Frontend sends:  ?auditType=pre-audit   or  ?auditType=post-audit
+ * Database stores: "Pre-Audit"            or  "Post-Audit"
+ */
+const AUDIT_TYPE_TO_STAGE = {
+  "pre-audit": "Pre-Audit",
+  "post-audit": "Post-Audit",
+};
+
+/**
+ * GET /api/user-files?page=1&limit=50&auditType=pre-audit
  *
  * Returns paginated files belonging to ULBs where the user is
  * currently working.
  *
- * ── Production switch ──────────────────────────────────────────────────────
- * Currently reads userId from query params (for testing).
- * When moving to production:
- *   1. Uncomment the JWT block below.
- *   2. Comment out the query-param block.
- *   3. Enable `protect` middleware in the route file.
+ * Optional query params:
+ *   - page       (default 1)
+ *   - limit      (default 50, max 100)
+ *   - auditType  ("pre-audit" | "post-audit") — filters by file stage.
+ *                 When omitted, returns all files regardless of stage.
  */
 export const getUserFiles = async (req, res) => {
   try {
@@ -59,8 +70,24 @@ export const getUserFiles = async (req, res) => {
       limit = MAX_LIMIT;
     }
 
+    // ── Parse and validate auditType ───────────────────────────────────────
+    const auditTypeParam = req.query.auditType;
+    let stage;
+
+    if (auditTypeParam) {
+      stage = AUDIT_TYPE_TO_STAGE[auditTypeParam];
+
+      if (!stage) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid auditType. Allowed values: pre-audit, post-audit",
+        });
+      }
+    }
+
     // ── Call service ───────────────────────────────────────────────────────
-    const result = await getFilesByUserUlbs({ userId, page, limit });
+    const result = await getFilesByUserUlbs({ userId, page, limit, stage });
 
     const message =
       result.data.length > 0
