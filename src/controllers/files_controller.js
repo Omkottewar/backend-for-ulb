@@ -10,18 +10,22 @@ export const createFile = async (req, res) => {
   try {
     console.log("📥 Incoming createFile request body:");
     console.log(JSON.stringify(req.body, null, 2));
-    const {
-      fileNumber,
-      fileTitle,
-      ulbId,
-      supplierId,
-      contractTypeId,
-      officerName,
-      templateId,
-      workDescription,
-      amount,
-      riskFlag,
-    } = req.body;
+// ── destructure stage from body
+const {
+  fileNumber,
+  fileTitle,
+  ulbId,
+  supplierId,
+  contractTypeId,
+  officerName,
+  templateId,
+  workDescription,
+  amount,
+  riskFlag,
+  stage,           // ← add this
+} = req.body;
+
+
 
     const userId = req.user.id;
 
@@ -41,21 +45,23 @@ export const createFile = async (req, res) => {
 
       console.log("🚀 Starting DB transaction");
 
-      const [newFile] = await trx
-        .insert(files)
-        .values({
-          fileNumber,
-          fileTitle,
-          ulbId,
-          supplierId,
-          contractTypeId,
-          officerName,
-          workDescription,
-          amount: numericAmount,
-          riskFlag,
-          createdBy: userId,
-        })
-        .returning();
+// ── pass it to the insert
+const [newFile] = await trx
+  .insert(files)
+  .values({
+    fileNumber,
+    fileTitle,
+    ulbId,
+    supplierId,
+    contractTypeId,
+    officerName,
+    workDescription,
+    amount: numericAmount,
+    riskFlag,
+    stage: stage || null,   // ← add this
+    createdBy: userId,
+  })
+  .returning();
 
       console.log("✅ File inserted:", newFile);
 
