@@ -4,6 +4,7 @@ import { db } from "../db/index.js";
 import { users } from "../db/schema/users.js";
 import { eq } from "drizzle-orm";
 import { roles } from "../db/schema/roles.js";
+
 export const signup = async (req, res) => {
   try {
     const { name, email, password, phone, roleId } = req.body;
@@ -46,7 +47,7 @@ export const signup = async (req, res) => {
     // Hash password
     const passwordHash = await bcrypt.hash(password, 12);
 
-    const inserted = await db
+    await db
       .insert(users)
       .values({
         name,
@@ -54,42 +55,35 @@ export const signup = async (req, res) => {
         passwordHash,
         phone: phone || null,
         roleId: role.id,
-        approve: false
+        approve: false,
       })
       .returning();
 
-    const user = inserted[0];
-
-    const token = jwt.sign(
-      { sub: user.id, role: role.code },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    res.status(201).json({
-      message: "User created successfully",
-      token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: role.name
-      }
+    // Do NOT issue a token here.
+    // Account starts unapproved; user signs in after admin approval.
+    return res.status(201).json({
+      message: "Account created successfully. Awaiting administrator approval.",
     });
-
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
+
 export const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required" });
+    }
+
+    const emailNormalized = email.toLowerCase();
+
     const result = await db
       .select()
       .from(users)
-      .where(eq(users.email, email));
+      .where(eq(users.email, emailNormalized));
 
     if (result.length === 0) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -112,7 +106,7 @@ export const signin = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // update last login
+    // Update last login (fire-and-forget semantics — don't block response on failure)
     await db
       .update(users)
       .set({ lastLoginAt: new Date() })
@@ -121,10 +115,10 @@ export const signin = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, roleId: user.roleId },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "24h", algorithm: "HS256" }
     );
 
-    res.json({
+    return res.json({
       message: "Login successful",
       token,
       user: {
@@ -134,24 +128,28 @@ export const signin = async (req, res) => {
         roleId: user.roleId,
       },
     });
-
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
 export const getSignupRoles = async (req, res) => {
-  const rolesList = await db
-    .select({
-      id: roles.id,
-      name: roles.name,
-      code: roles.code
-    })
-    .from(roles)
-    .where(eq(roles.isActive, true));
+  try {
+    const rolesList = await db
+      .select({
+        id: roles.id,
+        name: roles.name,
+        code: roles.code,
+      })
+      .from(roles)
+      .where(eq(roles.isActive, true));
 
-  const filtered = rolesList.filter(r => r.code !== "ADMIN");
+    const filtered = rolesList.filter((r) => r.code !== "ADMIN");
 
-  res.json(filtered);
+    return res.json(filtered);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
 };

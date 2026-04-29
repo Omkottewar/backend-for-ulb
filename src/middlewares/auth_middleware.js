@@ -4,7 +4,7 @@ export const protect = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "No token provided" });
     }
 
@@ -14,14 +14,29 @@ export const protect = (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Pin algorithm — prevents alg-confusion attacks as defense-in-depth
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET, {
+        algorithms: ["HS256"],
+      });
+    } catch {
+      return res.status(401).json({ message: "Invalid or expired token" });
+    }
 
-    req.user = decoded;
+    if (!decoded?.id || !decoded?.roleId) {
+      return res.status(401).json({ message: "Invalid token payload" });
+    }
 
-    next();
+    // Attach a consistent shape downstream routes can rely on
+    req.user = {
+      id: decoded.id,
+      roleId: decoded.roleId,
+    };
+
+    return next();
   } catch (error) {
-    return res.status(401).json({
-      message: "Invalid or expired token",
-    });
+    console.error("protect middleware error:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 };
